@@ -1,0 +1,21 @@
++---------------------+     +---------------------+
+|        Recipes      |     |        Ingredients   |
++---------------------+     +---------------------+
+| ID                  |     | ID                  |
+| Name                |     | Name                |
+| Description         |     | Calories            |
+| Servings            |     | Carbohydrates       |
+| PrepTime            |     | Protein             |
+| CookTime            |     | Fat                 |
+| CreatedAt           |     +---------------------+
+| UpdatedAt           |
++---------------------+
+
++---------------------+     +---------------------+
+|   RecipeIngredients |     |       Directions     |
++---------------------+     +---------------------+
+| RecipeID            |     | ID                  |
+| IngredientID        |     | RecipeID            |
+| Amount              |     | StepNumber          |
++---------------------+     | Description         |
+                            +---------------------+
