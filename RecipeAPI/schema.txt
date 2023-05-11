@@ -7,8 +7,7 @@
 | Servings            |     | Carbohydrates       |
 | PrepTime            |     | Protein             |
 | CookTime            |     | Fat                 |
-| CreatedAt           |     +---------------------+
-| UpdatedAt           |
+| CreatedAt           |     +---------------------+|
 +---------------------+
 
 +---------------------+     +---------------------+
