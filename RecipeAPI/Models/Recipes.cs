@@ -9,5 +9,8 @@
         public int PrepTime { get; set; }
         public int CookTime { get; set; }
         public DateTime CreatedAt { get; set; }
+        public ICollection<RecipeIngredient> RecipeIngredients { get; set; }
+        public ICollection<Directions> Directions { get; set; }
+
     }
 }
