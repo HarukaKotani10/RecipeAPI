@@ -6,6 +6,6 @@
         public Recipes Recipes { get; set; }
         public int IngredientId { get; set; }
         public Ingredients Ingredients { get; set; }
-        public double Amount { get; set; }
+        public string Amount { get; set; }
     }
 }
