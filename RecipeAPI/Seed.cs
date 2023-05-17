@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Microsoft.EntityFrameworkCore;
 using RecipeAPI.Models;
 
 namespace RecipeAPI.Data
@@ -15,6 +16,8 @@ namespace RecipeAPI.Data
         {
             if (!dataContext.RecipeIngredients.Any())
             {
+
+                dataContext.Database.ExecuteSqlRaw("SET IDENTITY_INSERT Ingredients ON");
                 // Add ingredients
                 var ingredients = new List<Ingredients>
                 {
