@@ -14,10 +14,9 @@ namespace RecipeAPI.Data
         }
         public void SeedDataContext()
         {
-            if (!dataContext.RecipeIngredients.Any())
-            {
 
-                dataContext.Database.ExecuteSqlRaw("SET IDENTITY_INSERT Ingredients ON");
+            if (!DbContextExtensions.TableExists(dataContext, "Ingredients"))
+            {
                 // Add ingredients
                 var ingredients = new List<Ingredients>
                 {
@@ -31,9 +30,11 @@ namespace RecipeAPI.Data
                 dataContext.Ingredients.AddRange(ingredients);
                 dataContext.SaveChanges();
 
-                // Add recipes
-                var recipes = new List<Recipes>
+                if (!DbContextExtensions.TableExists(dataContext, "Ingredients"))
                 {
+                    // Add recipes
+                    var recipes = new List<Recipes>
+                    {
                     new Recipes
                     {
                         Name = "Chocolate Cake",
@@ -86,6 +87,10 @@ namespace RecipeAPI.Data
                         }
                     }
                 };
+
+                    dataContext.Recipes.AddRange(recipes);
+                    dataContext.SaveChanges();
+                }
             }
         }
     }
