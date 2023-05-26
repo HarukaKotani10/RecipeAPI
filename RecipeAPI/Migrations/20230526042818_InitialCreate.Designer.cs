@@ -12,8 +12,8 @@ using RecipeAPI.Data;
 namespace RecipeAPI.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20230519052147_InitialMigrations")]
-    partial class InitialMigrations
+    [Migration("20230526042818_InitialCreate")]
+    partial class InitialCreate
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

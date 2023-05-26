@@ -1,9 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
+using RecipeAPI.Data;
 using RecipeAPI.Models;
 
-namespace RecipeAPI.Data
+namespace RecipeAPI
 {
     public class Seed
     {
