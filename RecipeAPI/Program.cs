@@ -15,6 +15,7 @@ builder.Services.AddTransient<Seed>();
 
 builder.Services.AddControllers().AddJsonOptions(x =>
                  x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles);
+builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 builder.Services.AddScoped<IDirectionsRepository, DirectionRepository>();
 
 builder.Services.AddEndpointsApiExplorer();
