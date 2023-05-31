@@ -5,7 +5,7 @@ namespace RecipeAPI.Interfaces
     public interface IDirectionsRepository
     {
         ICollection<Directions> GetDirections();
-        Directions GetDirections(int id);
+        Directions GetDirection(int id);
         bool HasDirections(int id);
         bool CreateDirection(Directions direction);
         bool UpdateDirection(Directions direction);
