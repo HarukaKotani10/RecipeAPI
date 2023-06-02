@@ -7,6 +7,11 @@ namespace RecipeAPI.Repository
     public class DirectionRepository : IDirectionsRepository
     {
         private DataContext _context;
+
+        public DirectionRepository(DataContext context)
+        {
+            _context = context;
+        }
         public bool CreateDirection(Directions direction)
         {
             throw new NotImplementedException();

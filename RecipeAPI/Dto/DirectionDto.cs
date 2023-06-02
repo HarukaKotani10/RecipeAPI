@@ -1,4 +1,6 @@
-﻿namespace RecipeAPI.Dto
+﻿using RecipeAPI.Models;
+
+namespace RecipeAPI.Dto
 {
     public class DirectionDto
     {
@@ -6,5 +8,6 @@
         public int StepNumber { get; set; }
         public string? Instruction { get; set; }
         public int RecipeId { get; set; }
+        public Recipes? Recipes { get; set; }
     }
 }
