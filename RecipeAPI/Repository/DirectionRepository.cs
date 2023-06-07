@@ -14,12 +14,14 @@ namespace RecipeAPI.Repository
         }
         public bool CreateDirection(Directions direction)
         {
-            throw new NotImplementedException();
+            _context.Add(direction);
+            return Save();
         }
 
         public bool DeleteDirection(Directions direction)
         {
-            throw new NotImplementedException();
+            _context.Remove(direction);
+            return Save();
         }
 
         public ICollection<Directions> GetDirections()
@@ -45,7 +47,8 @@ namespace RecipeAPI.Repository
 
         public bool UpdateDirection(Directions direction)
         {
-            throw new NotImplementedException();
+            _context.Update(direction);
+            return Save();
         }
     }
 }
