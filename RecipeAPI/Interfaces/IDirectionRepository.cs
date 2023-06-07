@@ -2,7 +2,7 @@
 
 namespace RecipeAPI.Interfaces
 {
-    public interface IDirectionsRepository
+    public interface IDirectionRepository
     {
         ICollection<Directions> GetDirections();
         Directions GetDirection(int id);

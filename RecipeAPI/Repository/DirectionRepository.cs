@@ -4,7 +4,7 @@ using RecipeAPI.Models;
 
 namespace RecipeAPI.Repository
 {
-    public class DirectionRepository : IDirectionsRepository
+    public class DirectionRepository : IDirectionRepository
     {
         private DataContext _context;
 

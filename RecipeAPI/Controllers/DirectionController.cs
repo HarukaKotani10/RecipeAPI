@@ -10,10 +10,10 @@ namespace RecipeAPI.Controllers
     [ApiController]
     public class DirectionController:Controller
     {
-        private readonly IDirectionsRepository _directionsRepository;
+        private readonly IDirectionRepository _directionsRepository;
         private readonly IMapper _mapper;
 
-        public DirectionController(IDirectionsRepository directionsRepository, IMapper mapper)
+        public DirectionController(IDirectionRepository directionsRepository, IMapper mapper)
         {
             _directionsRepository = directionsRepository;
             _mapper = mapper;
