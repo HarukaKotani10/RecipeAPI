@@ -2,7 +2,7 @@
 
 namespace RecipeAPI.Interfaces
 {
-    public interface IRecipe
+    public interface IRecipeRepository
     {
         ICollection<Recipes> GetRecipes();
         Recipes GetRecipe(int id);
