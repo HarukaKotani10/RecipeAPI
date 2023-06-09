@@ -33,6 +33,11 @@ namespace RecipeAPI.Repository
             return _context.RecipeIngredients.OrderBy(r => r.RecipeId).ToList();
         }
 
+        public bool HasRecipeIngredient(int recipeId, int ingredientid)
+        {
+            return _context.RecipeIngredients.Any(r => r.RecipeId == recipeId && r.IngredientId == ingredientid);
+        }
+
         public bool Save()
         {
             var saved = _context.SaveChanges();

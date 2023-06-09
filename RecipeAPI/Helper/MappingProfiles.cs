@@ -11,6 +11,7 @@ namespace PokemonReviewApp.Helper
             CreateMap<Directions, DirectionDto>();
             CreateMap<Ingredients, IngredientDto>();
             CreateMap<Recipes, RecipeDto>();
+            CreateMap<RecipeIngredient, RecipeIngredientDto>();
         }
     }
 }
