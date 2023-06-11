@@ -4,6 +4,7 @@ using RecipeAPI.Dto;
 using RecipeAPI.Interfaces;
 using RecipeAPI.Models;
 using RecipeAPI.Repository;
+using System.Diagnostics.Metrics;
 
 namespace RecipeAPI.Controllers
 {
@@ -46,6 +47,34 @@ namespace RecipeAPI.Controllers
                 return BadRequest(ModelState);
 
             return Ok(recipe);
+        }
+
+        [HttpPut("{recipeid}")]
+        [ProducesResponseType(400)]
+        [ProducesResponseType(204)]
+        [ProducesResponseType(404)]
+        public IActionResult UpdateRecipe(int recipeid, [FromBody] RecipeDto updateRecipe)
+        {
+            if (updateRecipe == null)
+                return BadRequest(ModelState);
+
+            if (recipeid != updateRecipe.Id)
+                return BadRequest(ModelState);
+
+            if (!_recipeRepository.HasRecipe(recipeid))
+                return NotFound();
+
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            var recipeMap = _mapper.Map<Recipes>(updateRecipe);
+
+            if (!_recipeRepository.UpdateRecipe(recipeMap))
+            {
+                ModelState.AddModelError("", "Something went wrong while saving");
+            }
+
+            return Ok("Successfully update");
         }
     }
 }

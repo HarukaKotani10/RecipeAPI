@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using RecipeAPI.Dto;
 using RecipeAPI.Interfaces;
 using RecipeAPI.Models;
+using RecipeAPI.Repository;
 
 namespace RecipeAPI.Controllers
 {
@@ -45,6 +46,34 @@ namespace RecipeAPI.Controllers
                 return BadRequest(ModelState);
 
             return Ok(direction);
+        }
+
+        [HttpPut("{directionid}")]
+        [ProducesResponseType(400)]
+        [ProducesResponseType(204)]
+        [ProducesResponseType(404)]
+        public IActionResult UpdateDirection(int directionid, [FromBody] DirectionDto updateDirection)
+        {
+            if (updateDirection == null)
+                return BadRequest(ModelState);
+
+            if (directionid != updateDirection.Id)
+                return BadRequest(ModelState);
+
+            if (!_directionsRepository.HasDirections(directionid))
+                return NotFound();
+
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            var recipeMap = _mapper.Map<Directions>(updateDirection);
+
+            if (!_directionsRepository.UpdateDirection(recipeMap))
+            {
+                ModelState.AddModelError("", "Something went wrong while saving");
+            }
+
+            return Ok("Successfully update");
         }
     }
 }

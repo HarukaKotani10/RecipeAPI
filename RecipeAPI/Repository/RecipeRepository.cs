@@ -45,7 +45,8 @@ namespace RecipeAPI.Repository
 
         public bool UpdateRecipe(Recipes recipe)
         {
-            throw new NotImplementedException();
+            _context.Update(recipe);
+            return Save();
         }
     }
 }

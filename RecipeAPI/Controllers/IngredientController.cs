@@ -47,5 +47,33 @@ namespace RecipeAPI.Controllers
             return Ok(ingredient);
         }
 
+        [HttpPut("{ingredientId}")]
+        [ProducesResponseType(400)]
+        [ProducesResponseType(204)]
+        [ProducesResponseType(404)]
+        public IActionResult UpdateCategory(int ingredientId, [FromBody] IngredientDto updateIngredient)
+        {
+            if (updateIngredient == null)
+                return BadRequest(ModelState);
+
+            if (ingredientId != updateIngredient.Id)
+                return BadRequest(ModelState);
+
+            if (!_ingredientRepository.HasIngredient(ingredientId))
+                return NotFound();
+
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            var ingredientMap = _mapper.Map<Ingredients>(updateIngredient);
+
+            if (!_ingredientRepository.UpdateIngredient(ingredientMap))
+            {
+                ModelState.AddModelError("", "Something went wrong while saving");
+            }
+
+            return Ok("Successfully update");
+        }
+
     }
 }
