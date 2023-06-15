@@ -48,19 +48,50 @@ namespace RecipeAPI.Controllers
             return Ok(direction);
         }
 
-        [HttpPut("{directionid}")]
+        [HttpPost]
+        [ProducesResponseType(204)]
+        [ProducesResponseType(400)]
+        public IActionResult CreateDirection([FromBody] DirectionDto directionCreate)
+        {
+            if (directionCreate == null)
+                return BadRequest(ModelState);
+
+            var direction = _directionsRepository.GetDirections()
+                .Where(c => c.Instruction.Trim().ToUpper() == directionCreate.Instruction.TrimEnd().ToUpper())
+                .FirstOrDefault();
+
+            if (direction != null)
+            {
+                ModelState.AddModelError("", "Direction already exists");
+                return StatusCode(422, ModelState);
+            }
+
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            var directionMap = _mapper.Map<Directions>(directionCreate);
+
+            if (!_directionsRepository.CreateDirection(directionMap))
+            {
+                ModelState.AddModelError("", "Something went wrong while saving");
+            }
+
+            return Ok("Successfully created");
+        }
+
+        [HttpPut("{directionId}")]
         [ProducesResponseType(400)]
         [ProducesResponseType(204)]
         [ProducesResponseType(404)]
-        public IActionResult UpdateDirection(int directionid, [FromBody] DirectionDto updateDirection)
+        public IActionResult UpdateDirection(int directionId, [FromBody] DirectionDto updateDirection)
         {
             if (updateDirection == null)
                 return BadRequest(ModelState);
 
-            if (directionid != updateDirection.Id)
+            if (directionId != updateDirection.Id)
                 return BadRequest(ModelState);
 
-            if (!_directionsRepository.HasDirections(directionid))
+            if (!_directionsRepository.HasDirections(directionId))
                 return NotFound();
 
             if (!ModelState.IsValid)
@@ -74,6 +105,30 @@ namespace RecipeAPI.Controllers
             }
 
             return Ok("Successfully update");
+        }
+
+        [HttpDelete("{directionId}")]
+        [ProducesResponseType(400)]
+        [ProducesResponseType(204)]
+        [ProducesResponseType(404)]
+        public IActionResult DeleteDirection(int directionId)
+        {
+            if (!_directionsRepository.HasDirections(directionId))
+            {
+                return NotFound();
+            }
+
+            var directionToDelete = _directionsRepository.GetDirection(directionId);
+
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            if (!_directionsRepository.DeleteDirection(directionToDelete))
+            {
+                ModelState.AddModelError("", "Something went wrong deleting direction");
+            }
+
+            return NoContent();
         }
     }
 }

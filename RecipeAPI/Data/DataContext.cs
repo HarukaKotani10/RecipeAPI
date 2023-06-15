@@ -20,11 +20,11 @@ namespace RecipeAPI.Data
             modelBuilder.Entity<RecipeIngredient>()
                 .HasKey(ri => new { ri.RecipeId, ri.IngredientId });
             modelBuilder.Entity<RecipeIngredient>()
-                .HasOne(r => r.Recipes)
+                .HasOne(r => r.Recipe)
                 .WithMany(ri => ri.RecipeIngredients)
                 .HasForeignKey(r => r.RecipeId);
             modelBuilder.Entity<RecipeIngredient>()
-                .HasOne(r => r.Ingredients)
+                .HasOne(r => r.Ingredient)
                 .WithMany(ri => ri.RecipeIngredients)
                 .HasForeignKey(i => i.IngredientId);
         }

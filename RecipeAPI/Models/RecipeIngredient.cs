@@ -3,9 +3,9 @@
     public class RecipeIngredient
     {
         public int RecipeId { get; set; }
-        public Recipes? Recipes { get; set; }
+        public Recipes? Recipe { get; set; }
         public int IngredientId { get; set; }
-        public Ingredients? Ingredients { get; set; }
+        public Ingredients? Ingredient { get; set; }
         public string? Amount { get; set; }
     }
 }
