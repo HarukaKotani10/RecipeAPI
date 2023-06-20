@@ -106,5 +106,29 @@ namespace RecipeAPI.Controllers
             return Ok("Successfully update");
         }
 
+        [HttpDelete("{ingredientId}")]
+        [ProducesResponseType(400)]
+        [ProducesResponseType(204)]
+        [ProducesResponseType(404)]
+        public IActionResult DeleteIngredient(int ingredientId)
+        {
+            if (!_ingredientRepository.HasIngredient(ingredientId))
+            {
+                return NotFound();
+            }
+
+            var ingredientToDelete = _ingredientRepository.GetIngredient(ingredientId);
+
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            if (!_ingredientRepository.DeleteIngredientn(ingredientToDelete))
+            {
+                ModelState.AddModelError("", "Something went wrong deleting ingredient");
+            }
+
+            return NoContent();
+        }
+
     }
 }
