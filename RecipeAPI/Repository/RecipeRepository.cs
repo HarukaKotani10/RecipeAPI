@@ -14,12 +14,14 @@ namespace RecipeAPI.Repository
 
         public bool CreateRecipe(Recipes recipe)
         {
-            throw new NotImplementedException();
+            _context.Add(recipe);
+            return Save();
         }
 
         public bool DeleteRecipe(Recipes recipe)
         {
-            throw new NotImplementedException();
+            _context.Remove(recipe);
+            return Save();
         }
 
         public Recipes GetRecipe(int id)
