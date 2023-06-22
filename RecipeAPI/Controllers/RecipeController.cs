@@ -14,10 +14,12 @@ namespace RecipeAPI.Controllers
     {
 
         private readonly IRecipeRepository _recipeRepository;
+        private readonly IIngredientRepository _ingredientRepository;
         private readonly IMapper _mapper;
-        public RecipeController(IRecipeRepository recipeRepository, IMapper mapper)
+        public RecipeController(IRecipeRepository recipeRepository, IIngredientRepository ingredientRepository, IMapper mapper)
         {
             _recipeRepository = recipeRepository;
+            _ingredientRepository = ingredientRepository;
             _mapper = mapper;
         }
 
@@ -47,6 +49,59 @@ namespace RecipeAPI.Controllers
                 return BadRequest(ModelState);
 
             return Ok(recipe);
+        }
+
+        [HttpPost]
+        [ProducesResponseType(204)]
+        [ProducesResponseType(400)]
+        public IActionResult CreateRecipe([FromQuery] Dictionary<int, string> ingredientAmount, [FromQuery] RecipeDto recipeCreate)
+        {
+            if (recipeCreate == null)
+                return BadRequest(ModelState);
+
+            var existingRecipe = _recipeRepository.GetRecipes()
+                .FirstOrDefault(c => c.Name.Trim().ToUpper() == recipeCreate.Name.TrimEnd().ToUpper());
+
+            if (existingRecipe != null)
+            {
+                ModelState.AddModelError("", "Recipe already exists");
+                return StatusCode(422, ModelState);
+            }
+
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            var recipeMap = _mapper.Map<Recipes>(recipeCreate);
+
+            foreach (var entry in ingredientAmount)
+            {
+                int ingId = entry.Key;
+                string amount = entry.Value;
+
+                var ingredient = _ingredientRepository.GetIngredient(ingId);
+                if (ingredient == null)
+                {
+                    ModelState.AddModelError("", $"Ingredient with ID {ingId} does not exist");
+                    return StatusCode(404, ModelState);
+                }
+
+                var recipeIngredient = new RecipeIngredient
+                {
+                    Recipe = recipeMap,
+                    Ingredient = ingredient,
+                    Amount = amount
+                };
+
+                recipeMap.RecipeIngredients.Add(recipeIngredient);
+            }
+
+            if (!_recipeRepository.CreateRecipe(recipeMap))
+            {
+                ModelState.AddModelError("", "Something went wrong");
+                return StatusCode(500, ModelState);
+            }
+
+            return Ok("Successfully created");
         }
 
         [HttpPut("{recipeid}")]
