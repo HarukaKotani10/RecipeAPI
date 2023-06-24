@@ -54,7 +54,7 @@ namespace RecipeAPI.Controllers
         [HttpPost]
         [ProducesResponseType(204)]
         [ProducesResponseType(400)]
-        public IActionResult CreateRecipe([FromQuery] Dictionary<int, string> ingredientAmount, [FromQuery] RecipeDto recipeCreate)
+        public IActionResult CreateRecipe([FromQuery] List<int> ingIds, [FromQuery] List<string> amounts, [FromQuery] RecipeDto recipeCreate)
         {
             if (recipeCreate == null)
                 return BadRequest(ModelState);
@@ -73,10 +73,16 @@ namespace RecipeAPI.Controllers
 
             var recipeMap = _mapper.Map<Recipes>(recipeCreate);
 
-            foreach (var entry in ingredientAmount)
+            if (ingIds.Count != amounts.Count)
             {
-                int ingId = entry.Key;
-                string amount = entry.Value;
+                ModelState.AddModelError("", "The number of ingredient IDs does not match the number of amounts");
+                return BadRequest(ModelState);
+            }
+
+            for (int i = 0; i < ingIds.Count; i++)
+            {
+                int ingId = ingIds[i];
+                string amount = amounts[i];
 
                 var ingredient = _ingredientRepository.GetIngredient(ingId);
                 if (ingredient == null)
@@ -103,6 +109,7 @@ namespace RecipeAPI.Controllers
 
             return Ok("Successfully created");
         }
+
 
         [HttpPut("{recipeid}")]
         [ProducesResponseType(400)]
