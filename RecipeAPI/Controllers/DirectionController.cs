@@ -48,6 +48,23 @@ namespace RecipeAPI.Controllers
             return Ok(direction);
         }
 
+        [HttpGet("recipes/{recipeId}")]
+        [ProducesResponseType(200, Type = typeof(Directions))]
+        [ProducesResponseType(400)]
+        public IActionResult GetDirectionsByRecipe(int recipeId)
+        {
+
+            var directions = _mapper.Map<List<DirectionDto>>(_directionsRepository.GetDirectionsByRecipe(recipeId));
+
+            if (directions.Count == 0)
+                return NotFound();
+
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            return Ok(directions);
+        }
+
         [HttpPost]
         [ProducesResponseType(204)]
         [ProducesResponseType(400)]

@@ -50,5 +50,11 @@ namespace RecipeAPI.Repository
             _context.Update(direction);
             return Save();
         }
+
+        public ICollection<Directions> GetDirectionsByRecipe(int recipeId)
+        {
+            return _context.Directions.Where(d => d.RecipeId == recipeId)
+                    .OrderBy(d => d.Id).ToList();
+        }
     }
 }
