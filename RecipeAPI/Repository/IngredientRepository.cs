@@ -29,6 +29,14 @@ namespace RecipeAPI.Repository
             return _context.Ingredients.Where(i => i.Id == id).FirstOrDefault();
         }
 
+        public ICollection<Ingredients> GetIngredientByRecipe(int recipeId)
+        {
+            return _context.RecipeIngredients
+                .Where(ri => ri.RecipeId == recipeId)
+                .Select(ri => ri.Ingredient)
+                .ToList();
+        }
+
         public ICollection<Ingredients> GetIngredients()
         {
             return _context.Ingredients.OrderBy(i => i.Id).ToList();
