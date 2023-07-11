@@ -51,6 +51,22 @@ namespace RecipeAPI.Controllers
             return Ok(recipe);
         }
 
+        [HttpGet("recipes")]
+        [ProducesResponseType(200, Type = typeof(Directions))]
+        [ProducesResponseType(400)]
+        public IActionResult GetRecipeByIngredients([FromQuery] int[] ingredients)
+        {
+
+            var recipes = _mapper.Map<List<Recipes>>(_recipeRepository.GetRecipesByIngredients(ingredients));
+
+            if (recipes.Count == 0)
+                return NotFound();
+
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            return Ok(recipes);
+        }
 
         [HttpPost]
         [ProducesResponseType(204)]

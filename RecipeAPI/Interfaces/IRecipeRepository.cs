@@ -6,6 +6,7 @@ namespace RecipeAPI.Interfaces
     {
         ICollection<Recipes> GetRecipes();
         Recipes GetRecipe(int id);
+        ICollection<Recipes> GetRecipesByIngredients(int[] ingredients);
         bool HasRecipe(int id);
         bool CreateRecipe(Recipes recipe);
         bool UpdateRecipe(Recipes recipe);

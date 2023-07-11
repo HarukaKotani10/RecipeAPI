@@ -1,6 +1,8 @@
-﻿using RecipeAPI.Data;
+﻿using Microsoft.EntityFrameworkCore;
+using RecipeAPI.Data;
 using RecipeAPI.Interfaces;
 using RecipeAPI.Models;
+using System.Collections;
 
 namespace RecipeAPI.Repository
 {
@@ -32,6 +34,16 @@ namespace RecipeAPI.Repository
         public ICollection<Recipes> GetRecipes()
         {
             return _context.Recipes.OrderBy(r => r.Id).ToList();
+        }
+        public ICollection<Recipes> GetRecipesByIngredients(int[] ingredients)
+        {
+
+            var filteredRecipes = _context.Recipes.AsEnumerable().Where(recipe =>
+                recipe.RecipeIngredients != null && ingredients.All(ingredientId =>
+                    recipe.RecipeIngredients.Any(ri => ri.IngredientId == ingredientId))
+            ).ToList();
+
+            return filteredRecipes;
         }
 
         public bool HasRecipe(int id)
