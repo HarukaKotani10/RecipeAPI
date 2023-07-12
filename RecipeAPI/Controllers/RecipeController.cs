@@ -51,7 +51,7 @@ namespace RecipeAPI.Controllers
             return Ok(recipe);
         }
 
-        [HttpGet("recipes")]
+        [HttpGet("recipeIngredient")]
         [ProducesResponseType(200, Type = typeof(Directions))]
         [ProducesResponseType(400)]
         public IActionResult GetRecipeByIngredients([FromQuery] int[] ingredients)

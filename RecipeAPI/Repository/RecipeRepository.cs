@@ -35,15 +35,16 @@ namespace RecipeAPI.Repository
         {
             return _context.Recipes.OrderBy(r => r.Id).ToList();
         }
+
         public ICollection<Recipes> GetRecipesByIngredients(int[] ingredients)
         {
 
-            var filteredRecipes = _context.Recipes.AsEnumerable().Where(recipe =>
-                recipe.RecipeIngredients != null && ingredients.All(ingredientId =>
-                    recipe.RecipeIngredients.Any(ri => ri.IngredientId == ingredientId))
-            ).ToList();
+            return _context.RecipeIngredients
+                .Where(ri => ingredients.Contains(ri.IngredientId))
+                .Select(ri => ri.Recipe)
+                .Distinct()
+                .ToList();
 
-            return filteredRecipes;
         }
 
         public bool HasRecipe(int id)
